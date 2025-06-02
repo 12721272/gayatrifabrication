@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gayatri Fabrication - Precision Fabrication Solutions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <style>
+      /* Custom styles for the video background and overlay */
+      body {
+        font-family: "Inter", sans-serif; /* Apply Inter font globally */
+        scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+      }
+
+      .hero-section {
+        position: relative;
+        height: 90vh; /* Full viewport height for the hero section */
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: white;
+      }
+
+      .video-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Ensures video covers the entire area */
+        z-index: -1;
+      }
+
+      .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(
+          0,
+          0,
+          0,
+          0.6
+        ); /* Darker overlay for better text readability */
+        z-index: 0;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 1;
+        padding: 2rem;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      /* Custom styling for cards and buttons */
+      .card {
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        cursor: pointer; /* Indicate that cards are clickable */
+      }
+
+      .card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .btn-primary {
+        background-color: #3b82f6; /* Tailwind blue-500 */
+        border-color: #3b82f6;
+        transition: background-color 0.3s ease-in-out,
+          border-color 0.3s ease-in-out;
+      }
+
+      .btn-primary:hover {
+        background-color: #2563eb; /* Tailwind blue-600 */
+        border-color: #2563eb;
+      }
+
+      .btn-outline {
+        border-color: #3b82f6;
+        color: #3b82f6;
+        transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+      }
+
+      .btn-outline:hover {
+        background-color: #3b82f6;
+        color: white;
+      }
+
+      /* Modal specific styles */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+          visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .modal-overlay.open {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .modal-content {
+        position: relative;
+        background-color: white;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        max-width: 90%;
+        max-height: 90%;
+        overflow: auto;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        /* Initial state for Android app-like animation */
+        transform: translateY(20px) scale(0.95);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .modal-overlay.open .modal-content {
+        /* Final state when modal is open */
+        transform: translateY(0) scale(1);
+      }
+
+      .modal-image {
+        max-width: 100%;
+        max-height: 80vh; /* Limit image height within modal */
+        display: block;
+        margin: 0 auto;
+        border-radius: 0.25rem;
+      }
+
+      .modal-close-button {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        background: none;
+        border: none;
+        font-size: 2rem;
+        color: #333;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 50%;
+        transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+      }
+
+      .modal-close-button:hover {
+        background-color: #f0f0f0;
+        color: #000;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 text-gray-800">
+    <header class="bg-white shadow-md py-4 sticky top-0 z-50">
+      <div class="container mx-auto px-4 flex justify-between items-center">
+        <a
+          href="#home"
+          class="flex items-center text-2xl font-bold text-gray-900 rounded-md p-2 hover:text-blue-600 transition duration-300"
+        >
+          <img
+            src="gayatrilogo.jpg"
+            alt="Gayatri Fabrication Logo"
+            class="h-10 w-10 mr-2 rounded-xl transform transition-transform duration-300 hover:scale-150 opacity-100"
+          />
+          Gayatri Fabrication
+        </a>
+
+        <button
+          id="mobile-menu-button"
+          class="lg:hidden text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md p-2"
+        >
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            ></path>
+          </svg>
+        </button>
+
+        <nav id="main-nav" class="hidden lg:flex space-x-8">
+          <a
+            href="#home"
+            class="text-gray-600 hover:text-blue-600 font-medium transition duration-300 py-2 px-3 rounded-md"
+            >Home</a
+          >
+          <div class="relative group">
+            <a
+              href="#products"
+              class="text-gray-600 hover:text-blue-600 font-medium transition duration-300 py-2 px-3 rounded-md inline-flex items-center"
+            >
+              Products
+              <svg
+                class="ml-2 w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                ></path>
+              </svg>
+            </a>
+            <div
+              class="absolute hidden group-hover:block bg-white shadow-lg rounded-md mt-2 py-2 w-48 transition-all duration-300 ease-out transform scale-95 opacity-0 group-hover:scale-100 group-hover:opacity-100 origin-top-right"
+            >
+              <a
+                href="#doors"
+                class="block px-4 py-2 text-gray-800 hover:bg-gray-100 rounded-md"
+                >Doors</a
+              >
+              <a
+                href="#windows"
+                class="block px-4 py-2 text-gray-800 hover:bg-gray-100 rounded-md"
+                >Windows</a
+              >
+              <a
+                href="#gates"
+                class="block px-4 py-2 text-gray-800 hover:bg-gray-100 rounded-md"
+                >Gates</a
+              >
+              <a
+                href="#grills"
+                class="block px-4 py-2 text-gray-800 hover:bg-gray-100 rounded-md"
+                >Grills</a
+              >
+              <a
+                href="#railings"
+                class="block px-4 py-2 text-gray-800 hover:bg-gray-100 rounded-md"
+                >Railings</a
+              >
+              <a
+                href="#custom-items"
+                class="block px-4 py-2 text-gray-800 hover:bg-gray-100 rounded-md"
+                >Custom Items</a
+              >
+              <div class="border-t border-gray-200 my-1"></div>
+              <a
+                href="#products"
+                class="block px-4 py-2 text-gray-800 hover:bg-gray-100 rounded-md"
+                >View All Products</a
+              >
+            </div>
+          </div>
+          <a
+            href="#services"
+            class="text-gray-600 hover:text-blue-600 font-medium transition duration-300 py-2 px-3 rounded-md"
+            >Services</a
+          >
+          <a
+            href="#about"
+            class="text-gray-600 hover:text-blue-600 font-medium transition duration-300 py-2 px-3 rounded-md"
+            >About Us</a
+          >
+          <a
+            href="#contact"
+            class="text-gray-600 hover:text-blue-600 font-medium transition duration-300 py-2 px-3 rounded-md"
+            >Contact Us</a
+          >
+        </nav>
+      </div>
+
+      <nav
+        id="mobile-nav"
+        class="lg:hidden hidden px-4 pt-2 pb-4 space-y-2 bg-gray-50 border-t border-gray-200"
+      >
+        <a
+          href="#home"
+          class="block text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-md font-medium transition duration-300"
+          >Home</a
+        >
+        <a
+          href="#products"
+          class="block text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-md font-medium transition duration-300"
+          >Products</a
+        >
+        <a
+          href="#services"
+          class="block text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-md font-medium transition duration-300"
+          >Services</a
+        >
+        <a
+          href="#about"
+          class="block text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-md font-medium transition duration-300"
+          >About Us</a
+        >
+        <a
+          href="#contact"
+          class="block text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-md font-medium transition duration-300"
+          >Contact Us</a
+        >
+      </nav>
+    </header>
+
+    <section id="home" class="hero-section">
+      <video autoplay muted loop class="video-background">
+        <source src="bgvid1.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <div class="overlay"></div>
+      <div class="hero-content">
+        <h1
+          class="text-5xl md:text-6xl font-extrabold leading-tight mb-4 drop-shadow-lg"
+        >
+          Gayatri Fabrication: <br class="hidden md:block" />Precision in Every
+          Weld
+        </h1>
+        <p class="text-lg md:text-xl mb-8 opacity-90 drop-shadow-md">
+          Your trusted partner for high-quality metal fabrication, engineering,
+          and custom solutions.
+        </p>
+        <a
+          href="#products"
+          class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 transform hover:scale-105"
+        >
+          Explore Our Solutions
+        </a>
+      </div>
+    </section>
+
+    <section id="products" class="py-16 bg-gray-100">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-12 text-gray-900">
+          Our Products
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div
+            id="doors"
+            class="bg-white rounded-lg shadow-lg overflow-hidden card product-card"
+          >
+            <img
+              src="door.jpg"
+              alt="Fabricated Doors"
+              class="w-full h-56 object-cover product-image"
+            />
+            <div class="p-6">
+              <h3 class="text-2xl font-semibold mb-3 text-gray-900">Doors</h3>
+              <p class="text-gray-700 mb-4">
+                Custom-fabricated metal doors for residential, commercial, and
+                industrial applications, offering security and durability.
+              </p>
+            </div>
+          </div>
+
+          <div
+            id="windows"
+            class="bg-white rounded-lg shadow-lg overflow-hidden card product-card"
+          >
+            <img
+              src="window.jpg"
+              alt="Fabricated Windows"
+              class="w-full h-56 object-cover product-image"
+            />
+            <div class="p-6">
+              <h3 class="text-2xl font-semibold mb-3 text-gray-900">Windows</h3>
+              <p class="text-gray-700 mb-4">
+                Durable and aesthetically pleasing metal window frames and
+                security windows, designed to fit various architectural styles.
+              </p>
+            </div>
+          </div>
+
+          <div
+            id="gates"
+            class="bg-white rounded-lg shadow-lg overflow-hidden card product-card"
+          >
+            <img
+              src="gate.jpg"
+              alt="Fabricated Gates"
+              class="w-full h-56 object-cover product-image"
+            />
+            <div class="p-6">
+              <h3 class="text-2xl font-semibold mb-3 text-gray-900">Gates</h3>
+              <p class="text-gray-700 mb-4">
+                Robust and decorative metal gates for driveways, entrances, and
+                security, available in various designs and finishes.
+              </p>
+            </div>
+          </div>
+
+          <div
+            id="grills"
+            class="bg-white rounded-lg shadow-lg overflow-hidden card product-card"
+          >
+            <img
+              src="grill.jpg.png"
+              alt="Fabricated Grills"
+              class="w-full h-56 object-cover product-image"
+            />
+            <div class="p-6">
+              <h3 class="text-2xl font-semibold mb-3 text-gray-900">Grills</h3>
+              <p class="text-gray-700 mb-4">
+                Protective and ornamental metal grills for windows, balconies,
+                and security barriers, combining strength with design.
+              </p>
+            </div>
+          </div>
+
+          <div
+            id="railings"
+            class="bg-white rounded-lg shadow-lg overflow-hidden card product-card"
+          >
+            <img
+              src="railing.jpg"
+              alt="Fabricated Railings"
+              class="w-full h-56 object-cover product-image"
+            />
+            <div class="p-6">
+              <h3 class="text-2xl font-semibold mb-3 text-gray-900">
+                Stairs & Railings
+              </h3>
+              <p class="text-700 mb-4">
+                Sturdy and stylish metal railings for stairs, balconies, and
+                fences, crafted for safety and aesthetic appeal.
+              </p>
+            </div>
+          </div>
+
+          <div
+            id="custom-items"
+            class="bg-white rounded-lg shadow-lg overflow-hidden card product-card"
+          >
+            <img
+              src="custom.jpg"
+              alt="Custom Fabricated Items"
+              class="w-full h-56 object-cover product-image"
+            />
+            <div class="p-6">
+              <h3 class="text-2xl font-semibold mb-3 text-gray-900">
+                Custom Fabricated Items
+              </h3>
+              <p class="text-gray-700 mb-4">
+                Bring your unique ideas to life! We specialize in custom metal
+                fabrication for a wide array of bespoke items tailored to your
+                exact specifications.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="services" class="py-16 bg-white">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-12 text-gray-900">
+          Our Services
+        </h2>
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-center"
+        >
+          <div class="p-6 bg-gray-50 rounded-lg shadow-md card">
+            <i class="bi bi-tools text-6xl text-blue-600 mb-4"></i>
+            <h3 class="text-2xl font-semibold mb-3 text-gray-900">
+              Design & Engineering
+            </h3>
+            <p class="text-gray-700">
+              Our expert team provides comprehensive design and engineering
+              services, ensuring optimal solutions from concept to detailed
+              blueprints.
+            </p>
+          </div>
+
+          <div class="p-6 bg-gray-50 rounded-lg shadow-md card">
+            <i
+              class="bi bi-lightning-charge-fill text-6xl text-blue-600 mb-4"
+            ></i>
+            <h3 class="text-2xl font-semibold mb-3 text-gray-900">
+              Arc Welding
+            </h3>
+            <p class="text-gray-700">
+              We specialize exclusively in high-quality arc welding techniques,
+              delivering strong, precise, and durable welds for all your metal
+              joining needs.
+            </p>
+          </div>
+
+          <div class="p-6 bg-gray-50 rounded-lg shadow-md card">
+            <i class="bi bi-house-door-fill text-6xl text-blue-600 mb-4"></i>
+            <h3 class="text-2xl font-semibold mb-3 text-gray-900">
+              Roof Top Fittings
+            </h3>
+            <p class="text-gray-700">
+              Expert installation and fabrication of various rooftop structures
+              and fittings, ensuring secure and durable solutions for your
+              property.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="py-16 bg-gray-100">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-12 text-gray-900">
+          About Gayatri Fabricators
+        </h2>
+        <div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+          <p class="text-lg text-gray-700 leading-relaxed mb-6">
+            Gayatri Fabricators is led by a single, highly experienced
+            professional with over 20 years in the metal fabrication industry.
+            This extensive experience ensures unparalleled precision,
+            reliability, and dedication to every project.
+          </p>
+          <p class="text-lg text-gray-700 leading-relaxed mb-6">
+            Despite being a solo operation, Gayatri Fabricators prides itself on
+            efficiency and a strong track record, having successfully completed
+            over 300 orders to date. Each project benefits from direct,
+            personalized attention and a commitment to delivering superior
+            quality.
+          </p>
+          <p class="text-lg text-gray-700 leading-relaxed">
+            We specialize in working with various metals, including steel,
+            aluminum, and stainless steel, to meet the diverse needs of our
+            clients across multiple sectors. Our focus remains on upholding the
+            highest standards of craftsmanship and ensuring complete customer
+            satisfaction.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="py-16 bg-white">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-12 text-gray-900">
+          Get in Touch
+        </h2>
+        <div
+          class="max-w-2xl mx-auto bg-gray-50 p-8 rounded-lg shadow-lg text-center"
+        >
+          <p class="text-lg text-gray-700 mb-4">
+            For inquiries or to discuss your fabrication needs, please reach out
+            to us using the contact information below.
+          </p>
+          <div class="space-y-4 text-left inline-block">
+            <p class="text-gray-800 text-lg flex items-center">
+              <i class="bi bi-geo-alt-fill text-blue-600 mr-3 text-2xl"></i>
+              Anandpar-361162,Kalawad,Jamnagar,Gujarat.
+            </p>
+            <p class="text-gray-800 text-lg flex items-center">
+              <i class="bi bi-telephone-fill text-blue-600 mr-3 text-2xl"></i>
+              <a href="tel:+919825260126" class="hover:underline"
+                >+91 98252 60126</a
+              >
+            </p>
+            <p class="text-gray-800 text-lg flex items-center">
+              <i class="bi bi-telephone-fill text-blue-600 mr-3 text-2xl"></i>
+              <a href="tel:+919106740206" class="hover:underline"
+                >+91 91067 40206</a
+              >
+            </p>
+            <p class="text-gray-800 text-lg flex items-center">
+              <i class="bi bi-envelope-fill text-blue-600 mr-3 text-2xl"></i>
+              <a
+                href="mailto:gayatrifebrication@gmail.com"
+                class="hover:underline"
+                >gayatrifebrication@gmail.com</a
+              >
+            </p>
+            <p class="text-gray-800 text-lg flex items-center">
+              <i class="bi bi-globe text-blue-600 mr-3 text-2xl"></i>
+              <a
+                href="https://gayatrifabrication.vercel.app"
+                class="hover:underline"
+                >gayatrifabrication.vercel.app</a
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="bg-gray-900 text-white py-10">
+      <div class="container mx-auto px-4 text-center">
+        <div class="mb-4">
+          <a
+            href="#home"
+            class="text-xl font-bold hover:text-blue-400 transition duration-300"
+            >Gayatri Fabrication</a
+          >
+        </div>
+        <div class="flex justify-center space-x-6 mb-6">
+          <a
+            href="#products"
+            class="hover:text-blue-400 transition duration-300"
+            >Products</a
+          >
+          <a
+            href="#services"
+            class="hover:text-blue-400 transition duration-300"
+            >Services</a
+          >
+          <a href="#about" class="hover:text-blue-400 transition duration-300"
+            >About Us</a
+          >
+          <a href="#contact" class="hover:text-blue-400 transition duration-300"
+            >Contact</a
+          >
+        </div>
+        <p class="text-gray-400 text-sm mb-2">
+          &copy; 2025 Gayatri Fabrication. All rights reserved.
+        </p>
+        <p class="text-gray-400 text-sm">
+          <a href="#" class="hover:text-blue-400 transition duration-300"
+            >Privacy Policy</a
+          >
+          |
+          <a href="#" class="hover:text-blue-400 transition duration-300"
+            >Terms of Service</a
+          >
+        </p>
+      </div>
+    </footer>
+
+    <div id="image-modal" class="modal-overlay hidden">
+      <div class="modal-content">
+        <button class="modal-close-button" id="close-modal">&times;</button>
+        <img
+          src=""
+          alt="Product Image"
+          class="modal-image"
+          id="modal-image-display"
+        />
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById("mobile-menu-button");
+        const mobileNav = document.getElementById("mobile-nav");
+
+        mobileMenuButton.addEventListener("click", () => {
+          mobileNav.classList.toggle("hidden");
+        });
+
+        // Close mobile menu when a link is clicked
+        mobileNav.querySelectorAll("a").forEach((link) => {
+          link.addEventListener("click", () => {
+            mobileNav.classList.add("hidden");
+          });
+        });
+
+        // Image Popup Functionality
+        const productCards = document.querySelectorAll(".product-card");
+        const imageModal = document.getElementById("image-modal");
+        const modalImageDisplay = document.getElementById(
+          "modal-image-display"
+        );
+        const closeModalButton = document.getElementById("close-modal");
+
+        // Function to open the modal
+        function openModal(imageUrl) {
+          modalImageDisplay.src = imageUrl;
+          imageModal.classList.remove("hidden");
+          imageModal.classList.add("open");
+          document.body.style.overflow = "hidden"; // Prevent scrolling when modal is open
+        }
+
+        // Function to close the modal
+        function closeModal() {
+          imageModal.classList.remove("open");
+          imageModal.classList.add("hidden");
+          document.body.style.overflow = ""; // Restore scrolling
+          modalImageDisplay.src = ""; // Clear image source
+        }
+
+        // Add click event listener to each product card
+        productCards.forEach((card) => {
+          card.addEventListener("click", (event) => {
+            const imageElement = card.querySelector(".product-image");
+            if (imageElement && imageElement.src) {
+              openModal(imageElement.src);
+            }
+          });
+        });
+
+        // Close modal when close button is clicked
+        closeModalButton.addEventListener("click", closeModal);
+
+        // Close modal when clicking outside the modal content (on the overlay)
+        imageModal.addEventListener("click", (event) => {
+          if (event.target === imageModal) {
+            closeModal();
+          }
+        });
+
+        // Close modal when escape key is pressed
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape" && imageModal.classList.contains("open")) {
+            closeModal();
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
